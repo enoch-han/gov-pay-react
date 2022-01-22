@@ -36,14 +36,14 @@ describe('Header', () => {
     if (!mountedWrapper) {
       const store = initStore();
       const history = createMemoryHistory();
-      const { container } = render(
-        <Provider store={store}>
-          <Router history={history}>
-            <Header {...props} />
-          </Router>
-        </Provider>
-      );
-      mountedWrapper = container.innerHTML;
+      // const { container } = render(
+      //   <Provider store={store}>
+      //     <Router history={history}>
+      //       <Header {...props} />
+      //     </Router>
+      //   </Provider>
+      // );
+      // mountedWrapper = container.innerHTML;
     }
     return mountedWrapper;
   };
