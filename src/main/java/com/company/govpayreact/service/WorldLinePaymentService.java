@@ -23,8 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class WorldLinePaymentService {
 
-    String apiKeyId = "534823c062bedc24";
-    String secretApiKey = "5frGHofPzr97BppEPZNVeZiPdZlblt1VmAb1bhImsvY=";
+    String apiKeyId = "7edcf81699b877e2";
+    String secretApiKey = "J4ulLo7yBqVU7L3d+MO02zsewEYiwhQswgQLt4/wl68=";
     URL propertiesUrl = getClass().getResource("/WorldLinePayment.properties");
     String merchantId = "1070";
     String merchantName = "Merchant 1070";

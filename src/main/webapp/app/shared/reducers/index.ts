@@ -12,6 +12,7 @@ import settings from 'app/modules/account/settings/settings.reducer';
 import passwordReset from 'app/modules/account/password-reset/password-reset.reducer';
 import sessions from 'app/modules/account/sessions/sessions.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
+import payment from 'app/modules/payment/payment.reducer';
 
 const rootReducer = {
   authentication,
@@ -26,6 +27,8 @@ const rootReducer = {
   sessions,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
+  payment,
+
 };
 
 export default rootReducer;

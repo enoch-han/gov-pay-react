@@ -79,16 +79,18 @@ public class PaymentResource {
 
     @GetMapping("/payments/companyName")
     public Mock getCompanyName() {
+        System.out.println("================== get company name ======================");
         // a mock that aquires company name
-        String uri = "https://mockbin.org/bin/dafff90d-eb30-45c2-9d30-13b819b81eb1";
+        String uri = "https://mockbin.org/bin/c725e6ca-adbe-4a1a-900a-63fea1c4b760";
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(uri, Mock.class);
     }
 
     @GetMapping("/payments/lastPayment")
     public Mock getLastPayment() {
+        System.out.println("================== get last payment ======================");
         // a mock that aquires last Payment date
-        String uri = "https://mockbin.org/bin/eab901ae-0524-4716-998c-da6d5602f755";
+        String uri = "https://mockbin.org/bin/5c7b0680-ce8a-41b2-b303-2f9bd9172196";
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(uri, Mock.class);
     }
@@ -102,13 +104,14 @@ public class PaymentResource {
         worldLinePaymentService.mac = response.getRETURNMAC();
         worldLinePaymentService.merchantReference = response.getMerchantReference();
         worldLinePaymentService.partialUrl = response.getPartialRedirectUrl();
-        log.debug(" world line initiation response : {}", response);
+        log.debug(" world line initiation response : {}", worldLinePaymentService.partialUrl);
 
         return response;
     }
 
     @PostMapping("/payments/getPaymentResponse")
     public GetHostedCheckoutResponse getPaymentResponse(@Valid @RequestBody String hostedCheckoutId) throws URISyntaxException {
+        hostedCheckoutId = hostedCheckoutId.substring(0,hostedCheckoutId.length()-1);
         log.debug("REST request to get payment detail : {}", hostedCheckoutId);
 
         GetHostedCheckoutResponse response = worldLinePaymentService.getPaymentResponse(hostedCheckoutId);

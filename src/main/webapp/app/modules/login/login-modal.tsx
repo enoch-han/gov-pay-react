@@ -1,5 +1,5 @@
 import React from 'react';
-import { ValidatedField } from 'react-jhipster';
+import { isEmail, ValidatedField } from 'react-jhipster';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Alert, Row, Col, Form } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
