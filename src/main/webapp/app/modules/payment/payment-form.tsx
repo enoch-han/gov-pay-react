@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import './payment.scss';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { isEmail, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { Row, Col, Alert, Form, Button } from 'reactstrap';
@@ -18,15 +18,30 @@ export const PaymentForm = (props: RouteComponentProps<any>) => {
     const currentPayment = useAppSelector(state => state.payment.currentPayment);
     const currentCompanyName = useAppSelector(state => state.payment.companyName);
     const currentLastPayment = useAppSelector(state => state.payment.lastPayment);
+    const [localCurrentPayment, setLocalCurrentPayment] = useState(currentPayment);
 
 
-    const [cikValue, setCikValue] = useState(1234658);
-    const [cccValue, setCccValue] = useState('adfdaf');
-    const [paymentAmountValue, setPaymentAmountValue] = useState(15);
-    const [nameValue, setNameValue] = useState('hen');
-    const [emailValue, setEmailValue] = useState('hen@gmail.com');
-    const [phoneValue, setPhoneValue] = useState('1234567898');
+    // const [cikValue, setCikValue] = useState(1234658);
+    // const [cccValue, setCccValue] = useState('adfdaf');
+    // const [paymentAmountValue, setPaymentAmountValue] = useState(15);
+    // const [nameValue, setNameValue] = useState('hen');
+    // const [emailValue, setEmailValue] = useState('hen@gmail.com');
+    // const [phoneValue, setPhoneValue] = useState('1234567898');
 
+    useEffect(() => {
+        if (localStorage.getItem('payment') !== null) {
+            const sessionValue = JSON.parse(localStorage.getItem('payment')) as Payment;
+            if (sessionValue instanceof Payment) {
+                dispatch(savePayment(sessionValue));
+                setLocalCurrentPayment(sessionValue);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        console.log("############## current local value #################");
+        console.log(localCurrentPayment)
+    }, [localCurrentPayment])
 
     const submitForm = (data) => {
         // eslint-disable-next-line no-console
@@ -43,15 +58,18 @@ export const PaymentForm = (props: RouteComponentProps<any>) => {
         dispatch(savePayment(payment));
         dispatch(aquireCompanyName()).then((value: any) => {
             dispatch(aquireLastPayment()).then(() => {
+                setLocalCurrentPayment(payment);
                 props.history.push('/payment-review');
             })
         })
+    }
 
-        // if (currentPayment != null) {
-        //     // eslint-disable-next-line no-console
-        //     console.log('in submit form method and current payment is not null');
-        //     props.history.push('/payment-review');
-        // }
+    const handleClear = () => {
+        const copy = null as Payment;
+        dispatch(savePayment(copy));
+        localStorage.removeItem('payment');
+        setLocalCurrentPayment(null);
+        props.history.push('/');
     }
 
     return (
@@ -85,7 +103,7 @@ export const PaymentForm = (props: RouteComponentProps<any>) => {
                             </p>
                         </h3>
                     </div>
-                    <div style={{ padding: '20px' }}>
+                    <div style={{ padding: '20px' }} key={localCurrentPayment?.ccc}>
                         <ValidatedForm id="paymentForm" onSubmit={submitForm}>
                             <h5>
                                 <b>Your credential and payment amount</b>
@@ -93,7 +111,7 @@ export const PaymentForm = (props: RouteComponentProps<any>) => {
                             <ValidatedField
                                 name="cik"
                                 label="CIK"
-                                defaultValue={cikValue}
+                                defaultValue={localCurrentPayment?.cik}
                                 placeholder="CIK ..."
                                 type="number"
                                 autoFocus
@@ -108,7 +126,7 @@ export const PaymentForm = (props: RouteComponentProps<any>) => {
                             <ValidatedField
                                 name="ccc"
                                 label="CCC"
-                                defaultValue={cccValue}
+                                defaultValue={localCurrentPayment?.ccc}
                                 placeholder="CCC ..."
                                 type="text"
                                 required
@@ -121,7 +139,7 @@ export const PaymentForm = (props: RouteComponentProps<any>) => {
                             <ValidatedField
                                 name="paymentAmount"
                                 label="Payment Amount"
-                                defaultValue={paymentAmountValue}
+                                defaultValue={localCurrentPayment?.paymentAmount}
                                 placeholder="Amount ..."
                                 type="number"
                                 required
@@ -137,7 +155,7 @@ export const PaymentForm = (props: RouteComponentProps<any>) => {
                             <ValidatedField
                                 name="name"
                                 label="Name"
-                                defaultValue={nameValue}
+                                defaultValue={localCurrentPayment?.name}
                                 placeholder="Name ..."
                                 type="text"
                                 required
@@ -148,7 +166,7 @@ export const PaymentForm = (props: RouteComponentProps<any>) => {
                             />
                             <ValidatedField
                                 name="email"
-                                defaultValue={emailValue}
+                                defaultValue={localCurrentPayment?.email}
                                 label="Email"
                                 placeholder="Email ..."
                                 type="email"
@@ -161,7 +179,7 @@ export const PaymentForm = (props: RouteComponentProps<any>) => {
                             <ValidatedField
                                 name="phoneNumber"
                                 label="Phone"
-                                defaultValue={phoneValue}
+                                defaultValue={localCurrentPayment?.phoneNumber}
                                 placeholder="Phone Number ..."
                                 type="text"
                                 required
@@ -174,7 +192,7 @@ export const PaymentForm = (props: RouteComponentProps<any>) => {
                                 }}
                             />
                             <Row>
-                                <Button color='secondary' style={{ margin: '10px' }}>Clear</Button>
+                                <Button color='secondary' style={{ margin: '10px' }} onClick={handleClear}>Clear</Button>
                                 <Button color='primary' style={{ margin: '10px' }} type='submit' data-cy="submit">Next</Button>
                             </Row>
                         </ValidatedForm>

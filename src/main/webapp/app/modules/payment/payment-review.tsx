@@ -45,6 +45,11 @@ export const PaymentReview = (props: RouteComponentProps<any>) => {
         setCanContinue(true);
         goToUrl();
     }
+
+    const handleBack = () => {
+        props.history.push('/');
+    }
+
     const goToUrl = () => {
         localStorage.setItem('payment', JSON.stringify(currentPayment));
         window.location.href = redirectUrl;
@@ -162,7 +167,7 @@ export const PaymentReview = (props: RouteComponentProps<any>) => {
                         <p style={{ fontWeight: "bold" }}><b>Phone</b></p>
                         <p>{currentPayment?.phoneNumber}</p>
                         <Row>
-                            <Button color='secondary' style={{ margin: '10px' }}>Back</Button>
+                            <Button color='secondary' style={{ margin: '10px' }} onClick={handleBack}>Back</Button>
                             <Button color='primary' style={{ margin: '10px' }} onClick={handleProccedToPayment}>Procced to Payment</Button>
                         </Row>
                     </div>

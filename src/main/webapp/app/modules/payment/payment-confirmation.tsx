@@ -15,6 +15,10 @@ export const PaymentConfirmation = (props: RouteComponentProps<any>) => {
         dispatch(createPayment(currentPayment));
     }, [])
 
+    const handleBack = () => {
+        props.history.push('/');
+    }
+
     return (
         <div>
             <div className="top">
@@ -55,7 +59,7 @@ export const PaymentConfirmation = (props: RouteComponentProps<any>) => {
                         <br />
                         <p>An email confirmation will be sent to you shortly</p>
                         <Row>
-                            <Button color='secondary' style={{ margin: '10px' }}>Back</Button>
+                            <Button color='secondary' style={{ margin: '10px' }} onClick={handleBack}>Back</Button>
                         </Row>
                     </div>
                 </div>
